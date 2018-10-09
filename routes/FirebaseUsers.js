@@ -14,7 +14,7 @@ var express = require('express');
      });
  });
  
-router.get('/users',function(req,res,next){
+router.get('/',function(req,res,next){
  
 FirebaseUser.getAllUsers(function (err,rows) {
     if(err)
