@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/tasks',Tasks);
-app.ue('/api/users',FirebaseUser);
+app.use('/api/users',FirebaseUser);
 app.use('/', routes);
 app.use('/users', users);
 
