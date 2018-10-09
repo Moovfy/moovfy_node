@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/Tasks',Tasks);
+app.use('/api/Tasks',Tasks);
 app.use('/', routes);
 app.use('/users', users);
 
