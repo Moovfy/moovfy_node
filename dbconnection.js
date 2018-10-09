@@ -1,7 +1,7 @@
 var mysql=require('mysql');
  var connection=mysql.createPool({
  
-host:'10.4.41.143',
+host:'localhost',
  user:'root',
  password:'admin123',
  database:'moovfy'
