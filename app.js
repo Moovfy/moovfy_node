@@ -23,7 +23,8 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/Tasks',Tasks);
+app.use('/api/tasks',Tasks);
+app.ue('/api/users',FirebaseUser);
 app.use('/', routes);
 app.use('/users', users);
 
