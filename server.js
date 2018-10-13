@@ -27,10 +27,11 @@ mongoose.connect(dbConfig.url, {
 });
 
 require('./app/routes/firebaseUser.routes.js')(app);
+require('./app/routes/location.routes')(app);
 
 // define a simple route
 app.get('/', (req, res) => {
-    res.json({"message": "Welcome to EasyNotes application. Take notes quickly. Organize and keep track of all your notes."});
+    res.json({"message": "Welcome to Moovfy application."});
 });
 
 // listen for requests

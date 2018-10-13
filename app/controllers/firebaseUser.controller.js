@@ -12,7 +12,8 @@ exports.create = (req, res) => {
     // Create a firebaseUser
     const firebaseUser = new FirebaseUser({
         email: req.body.email,
-        firebase_uid: req.body.firebase_uid
+        firebase_uid: req.body.firebase_uid,
+        _id: req.body.firebase_uid
     });
 
     // Save Note in the database
@@ -40,18 +41,20 @@ exports.findAll = (req, res) => {
 
 // Find a single note with a noteId
 exports.findByUID = (req, res) => {
-    FirebaseUser.findById(req.params.userUID)
+    console.log("A findbyUID");
+    FirebaseUser.findOne({ firebase_uid : req.params.userUID} )
         .then(user => {
             if(!user) {
                 return res.status(404).send({
-                    message: "User not found with id " + req.params.userUID
+                    //message: "User not found with id " + req.params.userUID,
+                    message: "Print " + FirebaseUser.findOne({ firebase_uid : req.params.userUID })
                 });
             }
             res.send(user);
         }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
-                message: "User not found with id " + req.params.userUID
+                message: "User not found with firebase useruid " + req.params.userUID
             });
         }
         return res.status(500).send({
