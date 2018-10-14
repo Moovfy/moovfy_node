@@ -15,4 +15,6 @@ module.exports = (app) => {
 
     // Delete a Note with noteId
     app.delete('/users/:userUID', firebaseUsers.delete);
+
+    app.get('/users/search/:searchname', firebaseUsers.findByName);
 }

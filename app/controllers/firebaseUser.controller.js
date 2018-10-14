@@ -9,9 +9,11 @@ exports.create = (req, res) => {
         });
     }*/
 
+    console.log(req.body.complete_name);
     // Create a firebaseUser
     const firebaseUser = new FirebaseUser({
         email: req.body.email,
+        complete_name: req.body.complete_name,
         firebase_uid: req.body.firebase_uid,
         _id: req.body.firebase_uid
     });
@@ -114,5 +116,12 @@ exports.delete = (req, res) => {
         return res.status(500).send({
             message: "Could not delete User with id " + req.params.userUID
         });
+    });
+};
+
+exports.findByName = (req,res) => {
+    var data = req.params.searchname;
+    FirebaseUser.find({'complete_name' : new RegExp(data, 'i')}, function(err, users){
+        res.send(users)
     });
 };

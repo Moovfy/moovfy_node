@@ -1,15 +1,21 @@
 module.exports = (app) => {
-    const Locations = require('../controllers/location.controller.js');
+    const Relations = require('../controllers/relation.controller.js');
 
-    // Create a new Location
-    app.post('/locations/add', Locations.create);
+    // Create a new Relation
+    app.post('/relations/add', Relations.create);
 
-    // Retrieve all Locations
-    app.get('/locations', Locations.findAll);
+    // Retrieve all Relations
+    app.get('/relations', Relations.findAll);
 
-    // Retrieve locations for the userUID
-    app.get('/locations/:userUID', Locations.findByUID);
+    // Retrieve relations for the userUID
+    app.get('/relations/:userUID', Relations.findByUID);
 
-    // Delete locations with userUID
-    app.delete('/users/:userUID', Locations.delete);
+    //Block user
+    app.post('/relations/block', Relations.block);
+
+    //Block user
+    app.post('/relations/block', Relations.unblock);
+
+    // Delete relation with userUIDs
+    app.delete('/relations', Relations.delete);
 }

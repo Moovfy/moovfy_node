@@ -1,78 +1,85 @@
-const Location = require('../models/location.model.js');
+const Relation = require('../models/relation.model.js');
 
-// Create and Save a new Location
 exports.create = (req, res) => {
-    // Create a location
-
-    const location = new Location({
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
-        firebase_uid: req.body.firebase_uid
+    const relation = new Relation({
+        firebase_uid1: req.body.firebase_uid1,
+        firebase_uid2: req.body.firebase_uid2,
+        status: req.body.status
     });
 
-    // Save Location in the database
-    location.save()
+    // Save Relation in the database
+    relation.save()
         .then(data => {
             res.send(data);
         }).catch(err => {
         res.status(500).send({
-            message: err.message || "Some error occurred while creating the location"
+            message: err.message || "Some error occurred while creating the relation"
         });
     });
 };
 
-// Retrieve and return all Locations from the database.
 exports.findAll = (req, res) => {
-    Location.find()
-        .then(locations => {
-            res.send(locations);
+    Relation.find()
+        .then(relations => {
+            res.send(relations);
         }).catch(err => {
         res.status(500).send({
-            message: err.message || "Some error occurred while retrieving locations."
+            message: err.message || "Some error occurred while retrieving relations."
         });
     });
 };
 
-// Find a single Location with a LocationId
 exports.findByUID = (req, res) => {
-    Location.find({ firebase_uid: req.params.userUID })
-        .then(userLocations => {
-            if(!userLocations) {
+    Relation.find({ firebase_uid1: req.params.userUID })
+        .then(relations => {
+            if(!relations) {
                 return res.status(404).send({
-                    message: "Locations not found with id " + req.params.userUID
+                    message: "Relations not found with id " + req.params.userUID
                 });
             }
-            res.send(userLocations);
+            res.send(relations);
         }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
-                message: "Locations not found with id " + req.params.userUID
+                message: "Relations not found with id " + req.params.userUID
             });
         }
         return res.status(500).send({
-            message: "Error retrieving Locations with id " + req.params.userUID
+            message: "Error retrieving Relations with id " + req.params.userUID
         });
     });
 };
 
-// Delete a Location with the specified LocationId in the request
-exports.delete = (req, res) => {
-    Location.findByIdAndRemove(req.params.userUID)
-        .then(userLocations => {
-            if(!userLocations) {
-                return res.status(404).send({
-                    message: "Loactions not found with id " + req.params.userUID
-                });
-            }
-            res.send({message: "UserLocations deleted successfully!"});
-        }).catch(err => {
-        if(err.kind === 'ObjectId' || err.name === 'NotFound') {
-            return res.status(404).send({
-                message: "UserLocations not found with id " + req.params.userUID
-            });
+exports.block = (req, res) => {
+    Relation.findOneAndUpdate({ "firebase_uid1": req.body.firebase_uid1, "firebase_uid2": req.body.firebase_uid2 }, { "$set": { "status": "blocked"}}).exec(function(err, relation){
+        if(err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            res.status(200).send("Blocked!");
         }
-        return res.status(500).send({
-            message: "Could not delete UserLocations with id " + req.params.userUID
-        });
+    });
+};
+
+exports.unblock = (req, res) => {
+    Relation.findOneAndUpdate({ "firebase_uid1": req.body.firebase_uid1, "firebase_uid2": req.body.firebase_uid2 }, { "$set": { "ok": "blocked"}}).exec(function(err, relation){
+        if(err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            res.status(200).send("Unblocked!");
+        }
+    });
+};
+
+// Delete a Relation with the specified LocationId in the request
+exports.delete = (req, res) => {
+    Relation.findOneAndDelete({ "firebase_uid1": req.body.firebase_uid1, "firebase_uid2": req.body.firebase_uid2 }).exec(function(err, relation){
+        if(err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            res.status(200).send("Deleted!!");
+        }
     });
 };
