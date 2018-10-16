@@ -14,7 +14,7 @@ module.exports = (app) => {
     app.post('/relations/block', Relations.block);
 
     //Block user
-    app.post('/relations/block', Relations.unblock);
+    app.post('/relations/unblock', Relations.unblock);
 
     // Delete relation with userUIDs
     app.delete('/relations', Relations.delete);

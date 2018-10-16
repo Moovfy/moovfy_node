@@ -12,4 +12,5 @@ module.exports = (app) => {
 
     // Delete locations with userUID
     app.delete('/users/:userUID', Locations.delete);
+
 }

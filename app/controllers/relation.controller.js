@@ -30,25 +30,27 @@ exports.findAll = (req, res) => {
 };
 
 exports.findByUID = (req, res) => {
-    Relation.find({ firebase_uid1: req.params.userUID })
-        .then(relations => {
-            if(!relations) {
-                return res.status(404).send({
-                    message: "Relations not found with id " + req.params.userUID
+    Relation.find({
+        $or: [{firebase_uid1: req.params.userUID}, {firebase_uid2: req.params.userUID}]},
+            function (err, relations) {
+                if (!relations) {
+                    return res.status(404).send({
+                        message: "Relations not found with id " + req.params.userUID
+                    });
+                }
+                res.send(relations);
+            }).catch(err => {
+                if (err.kind === 'ObjectId') {
+                    return res.status(404).send({
+                        message: "Relations not found with id " + req.params.userUID
+                    });
+                }
+                return res.status(500).send({
+                    message: "Error retrieving Relations with id " + req.params.userUID
                 });
-            }
-            res.send(relations);
-        }).catch(err => {
-        if(err.kind === 'ObjectId') {
-            return res.status(404).send({
-                message: "Relations not found with id " + req.params.userUID
-            });
-        }
-        return res.status(500).send({
-            message: "Error retrieving Relations with id " + req.params.userUID
-        });
-    });
+            })
 };
+
 
 exports.block = (req, res) => {
     Relation.findOneAndUpdate({ "firebase_uid1": req.body.firebase_uid1, "firebase_uid2": req.body.firebase_uid2 }, { "$set": { "status": "blocked"}}).exec(function(err, relation){
@@ -62,7 +64,7 @@ exports.block = (req, res) => {
 };
 
 exports.unblock = (req, res) => {
-    Relation.findOneAndUpdate({ "firebase_uid1": req.body.firebase_uid1, "firebase_uid2": req.body.firebase_uid2 }, { "$set": { "ok": "blocked"}}).exec(function(err, relation){
+    Relation.findOneAndUpdate({ "firebase_uid1": req.body.firebase_uid1, "firebase_uid2": req.body.firebase_uid2 }, { "$set": { "status": "ok"}}).exec(function(err, relation){
         if(err) {
             console.log(err);
             res.status(500).send(err);

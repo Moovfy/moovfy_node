@@ -14,6 +14,7 @@ exports.create = (req, res) => {
     const firebaseUser = new FirebaseUser({
         email: req.body.email,
         complete_name: req.body.complete_name,
+        username: req.body.username,
         firebase_uid: req.body.firebase_uid,
         _id: req.body.firebase_uid
     });
@@ -119,9 +120,28 @@ exports.delete = (req, res) => {
     });
 };
 
+exports.addLocation = (req,res) => {
+    var location = { "latitude" : req.body.latitude, "longitude" : req.body.longitude };
+    console.log(location);
+    FirebaseUser.findOneAndUpdate(
+        { _id: req.body.userUID },
+        { $push: { locations: location  } },
+        function (error, success) {
+            if (error) {
+                res.send(error);
+            } else {
+                res.send(success);
+            }
+        });
+};
+
 exports.findByName = (req,res) => {
     var data = req.params.searchname;
     FirebaseUser.find({'complete_name' : new RegExp(data, 'i')}, function(err, users){
         res.send(users)
     });
 };
+
+exports.getGroup = (req,res) => {
+
+}
