@@ -1,4 +1,7 @@
 const FirebaseUser = require('../models/firebaseUser.model.js');
+var geocluster = require("geocluster");
+var clustering = require("density-clustering");
+var _this = this;
 
 // Create and Save a new Note
 exports.create = (req, res) => {
@@ -8,8 +11,6 @@ exports.create = (req, res) => {
             message: "Firebase User content can not be empty"
         });
     }*/
-
-    console.log(req.body.complete_name);
     // Create a firebaseUser
     const firebaseUser = new FirebaseUser({
         email: req.body.email,
@@ -44,7 +45,6 @@ exports.findAll = (req, res) => {
 
 // Find a single note with a noteId
 exports.findByUID = (req, res) => {
-    console.log("A findbyUID");
     FirebaseUser.findOne({ firebase_uid : req.params.userUID} )
         .then(user => {
             if(!user) {
@@ -122,7 +122,6 @@ exports.delete = (req, res) => {
 
 exports.addLocation = (req,res) => {
     var location = { "latitude" : req.body.latitude, "longitude" : req.body.longitude };
-    console.log(location);
     FirebaseUser.findOneAndUpdate(
         { _id: req.body.userUID },
         { $push: { locations: location  } },
@@ -142,6 +141,104 @@ exports.findByName = (req,res) => {
     });
 };
 
-exports.getGroup = (req,res) => {
 
+
+exports.getLastLocations = (req,res) => {
+    getLastsLocations(function (x) {
+        res.send(x);
+    });
+};
+
+
+
+exports.nameByUID = (req,res) => {
+    var uid = req.params.uid;
+    var name = getNameByUID(uid, function(name){
+        res.send(name);
+    });
+}
+
+
+exports.optics = (req,res) => {
+    var result;
+    getLastsLocations(function (x) {
+        var coordinates = [];
+        var keys = Object.keys(x),
+            len = keys.length,
+            i = 0,
+            id,
+            last,
+            results = new Object();
+        while (i < len) {
+            id = keys[i];
+            var lat = x[id]["latitude"];
+            var long = x[id]["longitude"];
+            coordinates.push([lat, long]);
+            i += 1;
+        }
+        var optics = new clustering.OPTICS();
+        // parameters: 6 - neighborhood radius, 2 - number of points in neighborhood to form a cluster
+        var clusters = optics.run(coordinates, 0.005, 2);
+        var plot = optics.getReachabilityPlot();
+        var result = new Object();
+        result["clusters"] = clusters;
+        result["plot"] = plot;
+        res.send(clusters);
+    });
+};
+
+
+exports.dbscan = (req,res) => {
+    var result;
+    getLastsLocations(function (x) {
+        var coordinates = [];
+        var keys = Object.keys(x),
+            len = keys.length,
+            i = 0,
+            id,
+            last,
+            results = new Object();
+        while (i < len) {
+            id = keys[i];
+            var lat = x[id]["latitude"];
+            var long = x[id]["longitude"];
+            coordinates.push([lat, long]);
+            i += 1;
+        }
+        var dbscan = new clustering.DBSCAN();
+        var clusters = dbscan.run(coordinates,0.005);
+        res.send(clusters);
+    });
+};
+
+//MARK : Functions
+
+function getNameByUID(uid,callback) {
+    console.log("A getname");
+    FirebaseUser.find({'firebase_uid' : uid}, 'complete_name', function (err, user) {
+        console.log(user);
+        callback(user);
+    });
+}
+
+
+function getLastsLocations(callback) {
+    FirebaseUser.find({}, 'locations', function (err,result) {
+        var keys = Object.keys(result),
+            len = keys.length,
+            i = 0,
+            prop,
+            last,
+            id,
+            results = new Object();
+        while (i < len) {
+            prop = keys[i];
+            var array = result[prop]["locations"];
+            last = array[array.length - 1];
+            id = result[prop]["_id"];
+            results[id] = last;
+            i += 1;
+        }
+        callback(results);
+    });
 }

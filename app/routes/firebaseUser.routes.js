@@ -20,5 +20,12 @@ module.exports = (app) => {
 
     app.get('/users/search/:searchname', firebaseUsers.findByName);
 
-    app.get('/users/group', firebaseUsers.getGroup);
+    app.get('/lasts', firebaseUsers.getLastLocations);
+
+    app.get('/name/:uid', firebaseUsers.nameByUID);
+
+    app.get('/optics', firebaseUsers.optics);
+
+    app.get('/dbscan', firebaseUsers.dbscan);
+
 }
