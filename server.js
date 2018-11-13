@@ -29,6 +29,7 @@ mongoose.connect(dbConfig.url, {
 require('./app/routes/firebaseUser.routes.js')(app);
 require('./app/routes/location.routes')(app);
 require('./app/routes/relation.routes')(app);
+require('./app/routes/clusters.routes')(app);
 
 
 // define a simple route

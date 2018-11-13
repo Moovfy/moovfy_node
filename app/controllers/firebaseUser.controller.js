@@ -236,7 +236,7 @@ function getLastsLocations(callback) {
             var array = result[prop]["locations"];
             last = array[array.length - 1];
             id = result[prop]["_id"];
-            results[id] = last;
+            if(last != undefined) results[id] = last;
             i += 1;
         }
         callback(results);
