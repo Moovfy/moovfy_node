@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+var request = require('request');
 
 
 // create express app∫
@@ -41,4 +42,20 @@ app.get('/', (req, res) => {
 // listen for requests
 app.listen(3000, () => {
     console.log("Server is listening on port 3000");
+    var requestLoop = setInterval(function(){
+        request({
+            url: "http://localhost:3000/optics",
+            method: "GET",
+            timeout: 10000,
+            followRedirect: true,
+            maxRedirects: 10
+        },function(error, response, body){
+            if(!error && response.statusCode == 200){
+                console.log('sucess!');
+            }else{
+                console.log('error' + response.statusCode);
+            }
+        });
+    }, 60000);
 });
+

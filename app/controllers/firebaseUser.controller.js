@@ -1,6 +1,4 @@
 const FirebaseUser = require('../models/firebaseUser.model.js');
-var geocluster = require("geocluster");
-var clustering = require("density-clustering");
 var _this = this;
 
 // Create and Save a new Note
@@ -161,59 +159,6 @@ exports.nameByUID = (req,res) => {
         res.send(name);
     });
 }
-
-
-exports.optics = (req,res) => {
-    var result;
-    getLastsLocations(function (x) {
-        var coordinates = [];
-        var keys = Object.keys(x),
-            len = keys.length,
-            i = 0,
-            id,
-            last,
-            results = new Object();
-        while (i < len) {
-            id = keys[i];
-            var lat = x[id]["latitude"];
-            var long = x[id]["longitude"];
-            coordinates.push([lat, long]);
-            i += 1;
-        }
-        var optics = new clustering.OPTICS();
-        // parameters: 6 - neighborhood radius, 2 - number of points in neighborhood to form a cluster
-        var clusters = optics.run(coordinates, 0.005, 2);
-        var plot = optics.getReachabilityPlot();
-        var result = new Object();
-        result["clusters"] = clusters;
-        result["plot"] = plot;
-        res.send(clusters);
-    });
-};
-
-
-exports.dbscan = (req,res) => {
-    var result;
-    getLastsLocations(function (x) {
-        var coordinates = [];
-        var keys = Object.keys(x),
-            len = keys.length,
-            i = 0,
-            id,
-            last,
-            results = new Object();
-        while (i < len) {
-            id = keys[i];
-            var lat = x[id]["latitude"];
-            var long = x[id]["longitude"];
-            coordinates.push([lat, long]);
-            i += 1;
-        }
-        var dbscan = new clustering.DBSCAN();
-        var clusters = dbscan.run(coordinates,0.005);
-        res.send(clusters);
-    });
-};
 
 //MARK : Functions
 

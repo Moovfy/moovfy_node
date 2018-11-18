@@ -10,4 +10,7 @@ module.exports = (app) => {
     // Retrieve relations for the userUID
     app.get('/clusters/:userUID', Cluster.findByUID);
 
+    app.get('/optics', Cluster.optics);
+
+
 }

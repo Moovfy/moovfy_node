@@ -24,8 +24,4 @@ module.exports = (app) => {
 
     app.get('/name/:uid', firebaseUsers.nameByUID);
 
-    app.get('/optics', firebaseUsers.optics);
-
-    app.get('/dbscan', firebaseUsers.dbscan);
-
 }
