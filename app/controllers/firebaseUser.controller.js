@@ -71,7 +71,7 @@ exports.update = (req, res) => {
     // Validate Request
     if(!req.body.content) {
         return res.status(400).send({
-            message: "User content can not be empty"
+            message: "User content can nolot be empty"
         });
     }
 
