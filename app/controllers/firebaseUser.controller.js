@@ -122,10 +122,10 @@ exports.delete = (req, res) => {
 
 exports.addLocation = (req,res) => {
     var location = { "latitude" : req.body.latitude, "longitude" : req.body.longitude };
-    Console.log("FIR UID:")
-    Console.log(req.body.userUID);
-    Console.log("A ADD LOCATION amb location");
-    Console.log(location)
+    console.log("FIR UID:")
+    console.log(req.body.userUID);
+    console.log("A ADD LOCATION amb location");
+    console.log(location)
     FirebaseUser.findOneAndUpdate(
         { _id: req.body.userUID },
         { $push: { locations: location  } },

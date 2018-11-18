@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8a176d62-10f9-42e9-b8c7-d9b82526b83b" name="Default" comment="Errors on addLocation">
+    <list default="true" id="8a176d62-10f9-42e9-b8c7-d9b82526b83b" name="Default" comment="AddLocation restart">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/firebaseUser.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/firebaseUser.controller.js" afterDir="false" />
     </list>
@@ -48,14 +48,14 @@
     <session id="1572251719">
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="1172" />
-          <entry key="txt" value="45" />
+          <entry key="js" value="1183" />
+          <entry key="txt" value="66" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="1172" />
-          <entry key="PLAIN_TEXT" value="45" />
+          <entry key="JavaScript" value="1183" />
+          <entry key="PLAIN_TEXT" value="66" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -103,8 +103,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/controllers/firebaseUser.controller.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="205">
-                  <caret line="125" column="34" selection-start-line="125" selection-start-column="34" selection-end-line="125" selection-end-column="34" />
+                <state relative-caret-position="235">
+                  <caret line="127" column="25" lean-forward="true" selection-start-line="127" selection-start-column="25" selection-end-line="127" selection-end-column="25" />
                 </state>
               </provider>
             </entry>
@@ -383,7 +383,7 @@
       <workItem from="1541499263491" duration="3281000" />
       <workItem from="1541575485677" duration="3651000" />
       <workItem from="1542263515544" duration="4628000" />
-      <workItem from="1542310173086" duration="4168000" />
+      <workItem from="1542310173086" duration="4356000" />
     </task>
     <task id="LOCAL-00001" summary="Users endpoint working with OPTICS and DBSCAN">
       <created>1540453857611</created>
@@ -406,12 +406,12 @@
       <option name="project" value="LOCAL" />
       <updated>1542560114183</updated>
     </task>
-    <task id="LOCAL-00004" summary="Users endpoint">
-      <created>1539082266303</created>
+    <task id="LOCAL-00004" summary="AddLocation restart">
+      <created>1542560686219</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1539082266303</updated>
+      <updated>1542560686219</updated>
     </task>
     <task id="LOCAL-00005" summary="Users endpoint">
       <created>1539082308687</created>
@@ -434,11 +434,11 @@
       <option name="project" value="LOCAL" />
       <updated>1539291280621</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71992000" />
+    <option name="totallyTimeSpent" value="72180000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -511,7 +511,8 @@
     <MESSAGE value="Users endpoint working with OPTICS and DBSCAN" />
     <MESSAGE value="Transition of computers" />
     <MESSAGE value="Errors on addLocation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Errors on addLocation" />
+    <MESSAGE value="AddLocation restart" />
+    <option name="LAST_COMMIT_MESSAGE" value="AddLocation restart" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -702,8 +703,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/firebaseUser.controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="125" column="34" selection-start-line="125" selection-start-column="34" selection-end-line="125" selection-end-column="34" />
+        <state relative-caret-position="235">
+          <caret line="127" column="25" lean-forward="true" selection-start-line="127" selection-start-column="25" selection-end-line="127" selection-end-column="25" />
         </state>
       </provider>
     </entry>
