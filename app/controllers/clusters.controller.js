@@ -73,34 +73,63 @@ exports.optics = (req,res) => {
     });
 };
 
-
+async function test(){
+    for (let i = 0; i < 10; i++) {
+        await new Promise(resolve => {
+            console.log('Fetch data for ', i)
+            getRelation(i,i+1,function (x) {
+                console.log(x);
+                resolve();
+            })
+        })
+    }
+    console.log('Callback')
+}
 async function getData(uid,callback) {
+    response = []
     Clusters.findOne().sort('-createdAt').exec(function (err,post){
         var clusters = new Array(post.clustersgroups);
-        console.log(clusters);
         var found = false;
-        clusters[0].forEach(function (cluster) {{
+        clusters[0].forEach(async function (cluster) {
             console.log(cluster);
             clusteruids = new Array(cluster.uids);
-            console.log(clusteruids[0]);
             if(clusteruids[0].includes(uid)) {
                 found = true;
-                var i = 0;
-                while (i < clusteruids[0].length) {
-                    var uids = clusteruids[0][i];
-                    if (uids != uid) {
-                        getRelation(uid, uids, function (relation) {
-                            response.push({
-                                "uid": uids,
-                                "relation": relation
-                            });
-                        });
-                    }
-                    ++i;
+                var length = clusteruids[0].length;
+                var clusterCopy = [];
+                for (let j = 0; j < length; j++) {
+                    clusterCopy.push(clusteruids[0][j]);
+                }
+                for (let i = 0; i < length; i++) {
+                    await new Promise(resolve => {
+                      console.log('Fetch data for ', i)
+                      getRelation(uid,clusterCopy[i],function (relation) {
+                          if(uid != clusterCopy[i]) {
+                              if (relation[0] == undefined) {
+                                  var uids2 = clusterCopy[i]
+                                  console.log(uids2)
+                                  response.push({
+                                      "uid": clusterCopy[i],
+                                      "relation": "NO"
+                                  });
+                              }
+                              else {
+                                  var uids2 = clusterCopy[i]
+                                  console.log(uids2)
+                                  response.push({
+                                      "uid": clusterCopy[i],
+                                      "relation": relation[0].status
+                                  });
+                              }
+                          }
+                          console.log('Fetched data for ', i)
+                          resolve()
+                      })
+                    })
                 }
                 callback(response);
             }
-        }});
+        });
     });
 }
 
@@ -113,18 +142,16 @@ function getRelation(uid1,uid2,callback) {
                 ]},
         function (err, relation) {
             if (!relation) {
-                callback("")
+                callback("Nula")
             }
-            callback(relation.status);
+            callback(relation);
         }).catch(err => {
         if (err.kind === 'ObjectId') {
-            return res.status(404).send({
-                message: "Relations not found with id " + req.params.userUID
-            });
+            callback("Nula");
         }
-        return res.status(500).send({
-            message: "Error retrieving Relations with id " + req.params.userUID
-        });
+        else {
+            callback("Nula")
+        }
     })
 }
 
@@ -164,7 +191,7 @@ function saveCluster(cluster,callback) {
     // Save Relation in the database
     clusters.save()
         .then(data => {
-            callback("Correct");
+            callback(clusters);
         }).catch(err => {
             callback(err);
     });
