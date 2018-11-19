@@ -28,6 +28,30 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.findFriends = (req, res) => {
+    var uid = req.params.userUID;
+    getData(uid, function(resp){
+        filterFriends(resp,function (result) {
+            res.send(result);
+        })
+    });
+}
+
+async function filterFriends(resp,callback) {
+    var friends = [];
+    let length = resp.length
+    for (let i = 0; i < length; i++) {
+        await new Promise(resolve => {
+            let person = resp[i];
+            if(person["relation"] == "ok") {
+                friends.push(person);
+            }
+            resolve();
+        });
+    }
+    callback(friends);
+}
+
 exports.findByUID = (req, res) => {
     var uid = req.params.userUID;
     getData(uid,function(resp) {
@@ -104,10 +128,12 @@ async function getData(uid,callback) {
                               else {
                                   var uids2 = clusterCopy[i]
                                   console.log(uids2)
-                                  response.push({
-                                      "uid": clusterCopy[i],
-                                      "relation": relation[0].status
-                                  });
+                                  if(relation[0].status == "ok") {
+                                      response.push({
+                                          "uid": clusterCopy[i],
+                                          "relation": relation[0].status
+                                      });
+                                  }
                               }
                           }
                           console.log('Fetched data for ', i)

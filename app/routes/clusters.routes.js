@@ -7,10 +7,13 @@ module.exports = (app) => {
     // Retrieve all Cluster
     app.get('/clusters', Cluster.findAll);
 
+    app.get('/friends/:userUID', Cluster.findFriends);
+
     // Retrieve relations for the userUID
-    app.get('/clusters/:userUID', Cluster.findByUID);
+    app.get('/near/:userUID', Cluster.findByUID);
 
     app.get('/optics', Cluster.optics);
+
 
 
 }
