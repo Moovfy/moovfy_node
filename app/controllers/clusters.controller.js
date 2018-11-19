@@ -73,18 +73,6 @@ exports.optics = (req,res) => {
     });
 };
 
-async function test(){
-    for (let i = 0; i < 10; i++) {
-        await new Promise(resolve => {
-            console.log('Fetch data for ', i)
-            getRelation(i,i+1,function (x) {
-                console.log(x);
-                resolve();
-            })
-        })
-    }
-    console.log('Callback')
-}
 async function getData(uid,callback) {
     response = []
     Clusters.findOne().sort('-createdAt').exec(function (err,post){
