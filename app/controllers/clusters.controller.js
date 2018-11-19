@@ -73,7 +73,7 @@ exports.optics = (req,res) => {
     });
 };
 
-async function getData(uid,callback) {
+function getData(uid,callback) {
     response = []
     Clusters.findOne().sort('-createdAt').exec(function (err,post){
         var clusters = new Array(post.clustersgroups);
