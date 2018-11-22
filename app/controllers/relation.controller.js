@@ -51,15 +51,24 @@ exports.findByUID = (req, res) => {
             })
 };
 
+exports.blocked = (req,res) => {
+    var uid = req.params.userUID;
+    getBlocked(uid, function (result) {
+        res.send(result);
+    })
+}
+
 
 exports.block = (req, res) => {
-    Relation.findOneAndUpdate({ "firebase_uid1": req.body.firebase_uid1, "firebase_uid2": req.body.firebase_uid2 }, { "$set": { "status": "blocked"}}).exec(function(err, relation){
-        if(err) {
-            console.log(err);
-            res.status(500).send(err);
-        } else {
-            res.status(200).send("Blocked!");
-        }
+    var query = { "firebase_uid1": req.body.firebase_uid1, "firebase_uid2": req.body.firebase_uid2},
+        update = { "$set": { "status": "blocked"} },
+        options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+// Find the document
+    Relation.findOneAndUpdate(query, update, options, function(error, result) {
+        if (error) res.status(500).send("Error");
+        else res.send(result);
+        // do something with the document
     });
 };
 
@@ -84,4 +93,30 @@ exports.delete = (req, res) => {
             res.status(200).send("Deleted!!");
         }
     });
+};
+
+async function getBlocked(uid,callback) {
+    var response = [];
+    Relation.find({
+            $or: [{firebase_uid1: uid}, {firebase_uid2: uid}]},
+        async function (err, relations) {
+            if (!relations) {
+               callback();
+            }
+            var resp = [];
+            for (let i = 0; i < relations.length; i++) {
+                await new Promise(resolve => {
+                    var relation = relations[i];
+                    if(relation["status"] == blocked) {
+                        resp.push(relation);
+                    }
+                    resolve();
+                });
+            }
+            callback(relations);
+        }).catch(err => {
+        if (err.kind === 'ObjectId') {
+            callback()
+        }
+        });
 };

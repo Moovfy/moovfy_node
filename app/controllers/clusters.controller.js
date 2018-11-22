@@ -98,7 +98,7 @@ exports.optics = (req,res) => {
 };
 
 async function getData(uid,callback) {
-    response = []
+    response = [];
     Clusters.findOne().sort('-createdAt').exec(function (err,post){
         var clusters = new Array(post.clustersgroups);
         var found = false;

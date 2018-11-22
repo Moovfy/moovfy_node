@@ -10,6 +10,9 @@ module.exports = (app) => {
     // Retrieve relations for the userUID
     app.get('/relations/:userUID', Relations.findByUID);
 
+
+    app.get('/blocked/:userUID', Relations.blocked);
+
     //Block user
     app.post('/relations/block', Relations.block);
 
