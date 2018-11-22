@@ -96,7 +96,6 @@ exports.delete = (req, res) => {
 };
 
 async function getBlocked(uid,callback) {
-    var response = [];
     Relation.find({
             $or: [{firebase_uid1: uid}, {firebase_uid2: uid}]},
         async function (err, relations) {
@@ -107,13 +106,22 @@ async function getBlocked(uid,callback) {
             for (let i = 0; i < relations.length; i++) {
                 await new Promise(resolve => {
                     var relation = relations[i];
-                    if(relation["status"] == blocked) {
-                        resp.push(relation);
+                    if(relation["status"] == "blocked") {
+                        if(relation["firebase_uid1"] != uid) {
+                            resp.push({
+                                firebase_uid : relation["firebase_uid1"]
+                            });
+                        }
+                        else {
+                            resp.push({
+                                firebase_uid : relation["firebase_uid2"]
+                            });
+                        }
                     }
                     resolve();
                 });
             }
-            callback(relations);
+            callback(resp);
         }).catch(err => {
         if (err.kind === 'ObjectId') {
             callback()
