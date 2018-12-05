@@ -160,6 +160,19 @@ exports.nameByUID = (req,res) => {
     });
 }
 
+exports.updateAvatar = (req,res) => {
+    var uid = req.params.userUID;
+    FirebaseUser.findById(uid, function (err, user) {
+        if (err) { res.status(500).send("")}
+        else {
+            user.avatar = req.body.avatar;
+            user.save();
+            res.send(user);
+        }
+    });
+
+}
+
 //MARK : Functions
 
 function getNameByUID(uid,callback) {

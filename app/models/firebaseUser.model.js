@@ -8,6 +8,7 @@ const FirebaseUserSchema = mongoose.Schema({
     username: String,
     firebase_uid: String,
     locations : [LocationUser],
+    avatar: String,
     _id: String
 }, {
     timestamps: true

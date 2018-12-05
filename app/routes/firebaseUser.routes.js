@@ -24,4 +24,6 @@ module.exports = (app) => {
 
     app.get('/name/:uid', firebaseUsers.nameByUID);
 
+    app.put('/users/updateavatar/:userUID', firebaseUsers.updateAvatar);
+
 }
