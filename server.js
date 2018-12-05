@@ -3,7 +3,9 @@ const bodyParser = require('body-parser');
 var request = require('request');
 
 
-// create express app∫
+// create express app
+const https = require('https');
+const fs = require('fs');
 const app = express();
 
 // parse requests of content-type - application/x-www-form-urlencoded
@@ -58,4 +60,11 @@ app.listen(3000, () => {
         });
     }, 60000);
 });
+
+https.createServer({
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+}, app).listen(3001, () => {
+    console.log("Listening on port 3001 in https");
+})
 
