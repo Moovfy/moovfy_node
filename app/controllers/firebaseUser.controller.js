@@ -139,7 +139,7 @@ exports.addLocation = (req,res) => {
 exports.findByName = (req,res) => {
     var data = req.params.searchname;
     FirebaseUser.find({'complete_name' : new RegExp(data, 'i')}, function(err, users){
-        res.send(users.complete_name)
+        res.send(users)
     });
 };
 
