@@ -63,7 +63,8 @@ app.listen(3000, () => {
 
 https.createServer({
     key: fs.readFileSync('server.key'),
-    cert: fs.readFileSync('server.cert')
+    cert: fs.readFileSync('server.cert'),
+    ca: fs.readFileSync('server.pem')
 }, app).listen(3001, () => {
     console.log("Listening on port 3001 in https");
 })
