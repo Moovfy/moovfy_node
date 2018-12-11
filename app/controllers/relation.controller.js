@@ -7,6 +7,7 @@ exports.create = (req, res) => {
         status: req.body.status
     });
 
+    console.log(relation);
     // Save Relation in the database
     relation.save()
         .then(data => {
