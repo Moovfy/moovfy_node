@@ -74,7 +74,7 @@ exports.block = (req, res) => {
 };
 
 exports.unblock = (req, res) => {
-    Relation.findOneAndUpdate({ "firebase_uid1": req.body.firebase_uid1, "firebase_uid2": req.body.firebase_uid2 }, { "$set": { "status": "ok"}}).exec(function(err, relation){
+    Relation.findOneAndUpdate({ "firebase_uid1": req.body.firebase_uid1, "firebase_uid2": req.body.firebase_uid2 }, { "$set": { "status": "no"}}).exec(function(err, relation){
         if(err) {
             console.log(err);
             res.status(500).send(err);
