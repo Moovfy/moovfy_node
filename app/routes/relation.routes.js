@@ -20,5 +20,5 @@ module.exports = (app) => {
     app.post('/relations/unblock', Relations.unblock);
 
     // Delete relation with userUIDs
-    app.delete('/relations', Relations.delete);
+    app.post('/relations', Relations.delete);
 }

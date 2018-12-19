@@ -97,8 +97,7 @@ exports.delete = (req, res) => {
 };
 
 async function getBlocked(uid,callback) {
-    Relation.find({
-            $or: [{firebase_uid1: uid}, {firebase_uid2: uid}]},
+    Relation.find({firebase_uid1: uid},
         async function (err, relations) {
             if (!relations) {
                callback();
