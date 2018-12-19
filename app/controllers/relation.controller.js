@@ -74,12 +74,12 @@ exports.block = (req, res) => {
 };
 
 exports.unblock = (req, res) => {
-    Relation.findOneAndUpdate({ "firebase_uid1": req.body.firebase_uid1, "firebase_uid2": req.body.firebase_uid2 }, { "$set": { "status": "no"}}).exec(function(err, relation){
+    Relation.findOneAndDelete({ "firebase_uid1": req.body.firebase_uid1, "firebase_uid2": req.body.firebase_uid2 }).exec(function(err, relation){
         if(err) {
             console.log(err);
             res.status(500).send(err);
         } else {
-            res.status(200).send("Unblocked!");
+            res.status(200).send("Deleted!!");
         }
     });
 };
