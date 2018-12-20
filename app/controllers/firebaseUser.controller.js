@@ -1,4 +1,5 @@
 const FirebaseUser = require('../models/firebaseUser.model.js');
+const Clusters = require('clusters.controller.js');
 var _this = this;
 
 // Create and Save a new Note
@@ -131,19 +132,8 @@ exports.addLocation = (req,res) => {
             if (error) {
                 res.send(error);
             } else {
-                request({
-                    url: "http://localhost:3000/optics",
-                    method: "GET",
-                    timeout: 10000,
-                    followRedirect: true,
-                    maxRedirects: 10
-                },function(error, response, body){
-                    if(!error && response.statusCode == 200){
-                        console.log('sucess!');
-                    }else{
-                        console.log('error' + response.statusCode);
-                    }
-                });
+                var request, response;
+                Clusters.optics(request,response);
                 res.send(success);
             }
         });
