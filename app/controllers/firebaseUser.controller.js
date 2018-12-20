@@ -131,6 +131,19 @@ exports.addLocation = (req,res) => {
             if (error) {
                 res.send(error);
             } else {
+                request({
+                    url: "http://localhost:3000/optics",
+                    method: "GET",
+                    timeout: 10000,
+                    followRedirect: true,
+                    maxRedirects: 10
+                },function(error, response, body){
+                    if(!error && response.statusCode == 200){
+                        console.log('sucess!');
+                    }else{
+                        console.log('error' + response.statusCode);
+                    }
+                });
                 res.send(success);
             }
         });
