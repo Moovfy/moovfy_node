@@ -1,5 +1,4 @@
 const FirebaseUser = require('../models/firebaseUser.model.js');
-const Clusters = require('clusters.controller.js');
 var _this = this;
 
 // Create and Save a new Note
@@ -132,8 +131,6 @@ exports.addLocation = (req,res) => {
             if (error) {
                 res.send(error);
             } else {
-                var request, response;
-                Clusters.optics(request,response);
                 res.send(success);
             }
         });
